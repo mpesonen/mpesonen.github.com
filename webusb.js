@@ -25,6 +25,7 @@ window.onload = function () {
         if (!port) {
             return;
         }
+        console.log("Sending message");
         var buttonCommandUsbMessageData = new Uint8Array(3);
         buttonCommandUsbMessageData[0] = buttonIndex;
         buttonCommandUsbMessageData[1] = getMidiMessageTypeNumber(buttonCommand.messageType);
@@ -82,7 +83,19 @@ window.onload = function () {
     });
     updateButton.addEventListener('click', function () {
         var midiInputValue1 = midiValue1.value;
-        sendButtonCommandUpdate(0, new ButtonCommand(MidiMessageType.ControlChange, parseInt(midiInputValue1)));
+        //sendButtonCommandUpdate(0, new ButtonCommand(MidiMessageType.ControlChange, parseInt(midiInputValue1)));
+        if (!port) {
+            return;
+        }
+        console.log("Sending message");
+        var buttonCommandUsbMessageData = new Uint8Array(3);
+        buttonCommandUsbMessageData[0] = 0;
+        buttonCommandUsbMessageData[1] = 0;
+        buttonCommandUsbMessageData[2] = parseInt(midiInputValue1);
+        //port.send(buttonCommandUsbMessageData);
+        port.send(parseInt(midiInputValue1));
+        console.log('Message sent');
+        console.log(buttonCommandUsbMessageData);
     });
     serial.getPorts().then(function (ports) {
         if (ports.length == 0) {
