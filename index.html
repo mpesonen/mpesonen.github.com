@@ -7,10 +7,56 @@
     <body>
         <div class="container">
           <p>
-              <button id="connect">Connect</button>
+              <button id="connect" type="button" class="btn btn-secondary">Connect</button>
               <span id="status">Connect</span>
           </p>
         </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm alert alert-dark" role="alert">
+              MIDI message type
+            </div>
+            <div class="col-sm alert alert-dark" role="alert">
+              MIDI message value
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Message type
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" midiCommandType="ControlChange">CC</a>
+                <a class="dropdown-item" href="#" midiCommandType="ProgramChange">PC</a>
+                <a class="dropdown-item" href="#" midiCommandType="NoteOn">Note on</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-1">Value</span>
+              </div>
+              <input type="number" class="form-control" id="midi-value-1" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn btn-primary" type="button" id="updateButton">
+              Update
+            </button>
+          </div>
+
+          <div class="row">
+
+          </div>
+        </div>
+
 
         <script src="serial.js"></script>
         <script src="webusb.js"></script>
