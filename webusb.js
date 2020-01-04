@@ -6,6 +6,7 @@ window.onload = function () {
     var statusDisplay = document.querySelector('#status');
     var updateButton = document.querySelector('#updateButton');
     var midiValue1 = document.querySelector('#midi-value-1');
+    var loggerP = document.querySelector('#logger');
     var MidiMessageType;
     (function (MidiMessageType) {
         MidiMessageType[MidiMessageType["ControlChange"] = 0] = "ControlChange";
@@ -57,6 +58,7 @@ window.onload = function () {
             port.onReceive = function (data) {
                 var textDecoder = new TextDecoder();
                 console.log(textDecoder.decode(data));
+                loggerP.textContent = textDecoder.decode(data);
             };
             port.onReceiveError = function (error) {
                 console.error(error);
@@ -92,8 +94,7 @@ window.onload = function () {
         buttonCommandUsbMessageData[0] = 0;
         buttonCommandUsbMessageData[1] = 0;
         buttonCommandUsbMessageData[2] = parseInt(midiInputValue1);
-        //port.send(buttonCommandUsbMessageData);
-        port.send(parseInt(midiInputValue1));
+        port.send(buttonCommandUsbMessageData);
         console.log('Message sent');
         console.log(buttonCommandUsbMessageData);
     });
