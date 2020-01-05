@@ -91,21 +91,25 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="midi-prepend-1">Controller Number</span>
               </div>
-              <input type="number" class="form-control midi-cc-data data1" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
-            </div>
-            <div class="input-group mb-3">
-              <label>(Data):&nbsp;</label>
-              <input disabled type="number" class="form-control cc-controller-index data2" aria-label="cc-controller-index">
+              <input type="number" min="0" max="127" class="form-control midi-cc-data data1" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+            
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-1">Data (optional)</span>
+              </div>
+              <input type="number" min="0" max="127" class="form-control cc-controller-index data2" aria-label="cc-controller-index">
             </div>
           </div>
 
           <div id="pc-message-controls">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="midi-prepend-2">Program Number</span>
+                <span class="input-group-text" id="midi-prepend-2">Program Number (HXStomp: unneeded)</span>
               </div>
-              <input type="number" class="form-control program-number data1" aria-label="pc-program-number">
-              <input hidden type="number" class="data2" >
+              <input type="number" class="form-control program-number data1" min="0" max="127" aria-label="pc-program-number">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-2">Data (HXStomp: Program Number)</span>
+              </div>
+              <input type="number" min="0" max="127" class="data2">
             </div>
           </div>
 
@@ -114,13 +118,11 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Note Number</span>
               </div>
-              <input type="number" class="form-control note-number data1" placeholder="60">
-            </div>
-            <div class="input-group mb-3">
+              <input type="number" class="form-control note-number data1" min="0" max="127" placeholder="60">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="midi-prepend-1">Velocity</span>
               </div>
-              <input type="number" class="form-control note-velocity data2" placeholder="100" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+              <input type="number" class="form-control note-velocity data2" min="0" max="127" placeholder="100" aria-label="MidiValue" aria-describedby="midi-prepend-1">
             </div>
           </div>
         </div>

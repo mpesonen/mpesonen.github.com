@@ -22,16 +22,55 @@ window.onload = () => {
     function updateCcControlsTemplate(updatedDiv: Element)
     {
       updatedDiv.innerHTML = ccControlsTemplate.innerHTML;
+      
+      updatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
+        numberInput.addEventListener('change', event => {
+          if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min')))
+          {
+            numberInput.value = numberInput.getAttribute('min');
+          }
+          else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max')))
+          {
+            numberInput.value = numberInput.getAttribute('max');
+          }
+        })
+      });
     }
 
     function updatePcControlsTemplate(updatedDiv: Element)
     {
       updatedDiv.innerHTML = pcControlsTemplate.innerHTML;
+
+      updatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
+        numberInput.addEventListener('change', event => {
+          if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min')))
+          {
+            numberInput.value = numberInput.getAttribute('min');
+          }
+          else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max')))
+          {
+            numberInput.value = numberInput.getAttribute('max');
+          }
+        })
+      });
     }
 
     function updateNoteOnControlsTemplate(updatedDiv: Element)
     {
       updatedDiv.innerHTML = noteOnControlsTemplate.innerHTML;
+
+      updatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
+        numberInput.addEventListener('change', event => {
+          if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min')))
+          {
+            numberInput.value = numberInput.getAttribute('min');
+          }
+          else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max')))
+          {
+            numberInput.value = numberInput.getAttribute('max');
+          }
+        })
+      });
     }
 
     enum MidiMessageType { ControlChange, ProgramChange, NoteOn, }

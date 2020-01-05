@@ -13,12 +13,42 @@ window.onload = function () {
     var noteOnControlsTemplate = document.querySelector('#note-on-message-controls');
     function updateCcControlsTemplate(updatedDiv) {
         updatedDiv.innerHTML = ccControlsTemplate.innerHTML;
+        updatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
+            numberInput.addEventListener('change', function (event) {
+                if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min'))) {
+                    numberInput.value = numberInput.getAttribute('min');
+                }
+                else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max'))) {
+                    numberInput.value = numberInput.getAttribute('max');
+                }
+            });
+        });
     }
     function updatePcControlsTemplate(updatedDiv) {
         updatedDiv.innerHTML = pcControlsTemplate.innerHTML;
+        updatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
+            numberInput.addEventListener('change', function (event) {
+                if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min'))) {
+                    numberInput.value = numberInput.getAttribute('min');
+                }
+                else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max'))) {
+                    numberInput.value = numberInput.getAttribute('max');
+                }
+            });
+        });
     }
     function updateNoteOnControlsTemplate(updatedDiv) {
         updatedDiv.innerHTML = noteOnControlsTemplate.innerHTML;
+        updatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
+            numberInput.addEventListener('change', function (event) {
+                if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min'))) {
+                    numberInput.value = numberInput.getAttribute('min');
+                }
+                else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max'))) {
+                    numberInput.value = numberInput.getAttribute('max');
+                }
+            });
+        });
     }
     var MidiMessageType;
     (function (MidiMessageType) {
