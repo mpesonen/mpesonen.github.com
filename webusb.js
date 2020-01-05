@@ -1,12 +1,25 @@
 // (Global) variables
 var port;
+var UPDATE_MIDI_MESSAGE_CODE = 100;
 window.onload = function () {
     console.log("ONLOAD");
-    var connectButton = document.querySelector("#connect");
+    var connectButton = document.querySelector('#connect');
     var statusDisplay = document.querySelector('#status');
     var updateButton = document.querySelector('#updateButton');
-    var midiValue1 = document.querySelector('#midi-value-1');
     var loggerP = document.querySelector('#logger');
+    var dropDownItems = document.querySelectorAll('.dropdown-item');
+    var ccControlsTemplate = document.querySelector('#cc-message-controls');
+    var pcControlsTemplate = document.querySelector('#pc-message-controls');
+    var noteOnControlsTemplate = document.querySelector('#note-on-message-controls');
+    function updateCcControlsTemplate(updatedDiv) {
+        updatedDiv.innerHTML = ccControlsTemplate.innerHTML;
+    }
+    function updatePcControlsTemplate(updatedDiv) {
+        updatedDiv.innerHTML = pcControlsTemplate.innerHTML;
+    }
+    function updateNoteOnControlsTemplate(updatedDiv) {
+        updatedDiv.innerHTML = noteOnControlsTemplate.innerHTML;
+    }
     var MidiMessageType;
     (function (MidiMessageType) {
         MidiMessageType[MidiMessageType["ControlChange"] = 0] = "ControlChange";
@@ -26,11 +39,11 @@ window.onload = function () {
         if (!port) {
             return;
         }
-        console.log("Sending message");
-        var buttonCommandUsbMessageData = new Uint8Array(3);
-        buttonCommandUsbMessageData[0] = buttonIndex;
-        buttonCommandUsbMessageData[1] = getMidiMessageTypeNumber(buttonCommand.messageType);
-        buttonCommandUsbMessageData[2] = getMidiMessageTypeNumber(buttonCommand.messageValue);
+        var buttonCommandUsbMessageData = new Uint8Array(4);
+        buttonCommandUsbMessageData[0] = UPDATE_MIDI_MESSAGE_CODE; // Indicate update message
+        buttonCommandUsbMessageData[1] = buttonIndex;
+        buttonCommandUsbMessageData[2] = getMidiMessageTypeNumber(buttonCommand.messageType);
+        buttonCommandUsbMessageData[3] = buttonCommand.messageValue;
         port.send(buttonCommandUsbMessageData);
         console.log('Message sent');
         console.log(buttonCommandUsbMessageData);
@@ -83,20 +96,30 @@ window.onload = function () {
             });
         }
     });
+    dropDownItems.forEach(function (item) {
+        item.addEventListener('click', function (event) {
+            var closestParent = item.closest('div.parent-footswitch');
+            if (closestParent !== null) {
+                var selectedDropdownLabel = closestParent.querySelector('input.message-type-selected');
+                selectedDropdownLabel.setAttribute('placeholder', item.textContent);
+                var footswitchIndex = closestParent.getAttribute('footswitch-index');
+                var controlsDiv = closestParent.querySelector('.message-controls');
+                if (item.classList.contains('control-change')) {
+                    updateCcControlsTemplate(controlsDiv);
+                }
+                else if (item.classList.contains('program-change')) {
+                    updatePcControlsTemplate(controlsDiv);
+                }
+                else if (item.classList.contains('note-on')) {
+                    updateNoteOnControlsTemplate(controlsDiv);
+                }
+            }
+        });
+    });
     updateButton.addEventListener('click', function () {
-        var midiInputValue1 = midiValue1.value;
-        //sendButtonCommandUpdate(0, new ButtonCommand(MidiMessageType.ControlChange, parseInt(midiInputValue1)));
-        if (!port) {
-            return;
-        }
-        console.log("Sending message");
-        var buttonCommandUsbMessageData = new Uint8Array(3);
-        buttonCommandUsbMessageData[0] = 0;
-        buttonCommandUsbMessageData[1] = 0;
-        buttonCommandUsbMessageData[2] = parseInt(midiInputValue1);
-        port.send(buttonCommandUsbMessageData);
-        console.log('Message sent');
-        console.log(buttonCommandUsbMessageData);
+        var midiCcData1 = document.querySelector('.midi-cc-data');
+        var midiInputValue1 = midiCcData1.value;
+        sendButtonCommandUpdate(0, new ButtonCommand(MidiMessageType.ControlChange, parseInt(midiInputValue1)));
     });
     serial.getPorts().then(function (ports) {
         if (ports.length == 0) {

@@ -12,49 +12,33 @@
           </p>
         </div>
 
-        <div class="container">
-          <div class="row">
-            <div class="col-sm alert alert-dark" role="alert">
-              MIDI message type
-            </div>
-            <div class="col-sm alert alert-dark" role="alert">
-              MIDI message value
-            </div>
-          </div>
-        </div>
-
-        <div class="container">
-          <div class="row">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Message type
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" midiCommandType="ControlChange">CC</a>
-                <a class="dropdown-item" href="#" midiCommandType="ProgramChange">PC</a>
-                <a class="dropdown-item" href="#" midiCommandType="NoteOn">Note on</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
+        <div class="container parent-footswitch" footswitch-index="1">
+          <div class="row alert alert-info">
+            <h2>Footswitch 1</h2>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="midi-prepend-1">Value</span>
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message Type</button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">CC</a>
+                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">PC</a>
+                  <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
+                </div>
               </div>
-              <input type="number" class="form-control" id="midi-value-1" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+              <input disabled type="text" class="form-control message-type-selected" placeholder="Select type" aria-label="Text input with dropdown button">
             </div>
+            <div class="message-controls">Controls after selection</div>
           </div>
 
           <div class="row">
             <button class="btn btn-primary" type="button" id="updateButton">
-              Update
+              Update all
             </button>
           </div>
 
           <div class="row">
             <h2>Logger</h2>
             <div>
+              <br/>
               <p id="logger">
                 Here
               </p>
@@ -62,6 +46,44 @@
           </div>
         </div>
 
+        <div class="templates">
+          <div id="cc-message-controls">
+            <div class="input-group mb-3">
+              <label>CC controller index:&nbsp;</label>
+              <input disabled type="number" class="form-control cc-controller-index" placeholder="0" aria-label="cc-controller-index">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-1">Data</span>
+              </div>
+              <input type="number" class="form-control midi-cc-data" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+            </div>
+          </div>
+
+          <div id="pc-message-controls">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-2">Program Number</span>
+              </div>
+              <input type="number" class="form-control program-number" placeholder="0" aria-label="pc-program-number">
+            </div>
+          </div>
+
+          <div id="note-on-message-controls">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Note Number</span>
+              </div>
+              <input type="number" class="form-control note-number" placeholder="60">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-1">Velocity</span>
+              </div>
+              <input type="number" class="form-control note-velocity" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+            </div>
+          </div>
+        </div>
 
         <script src="serial.js"></script>
         <script src="webusb.js"></script>
