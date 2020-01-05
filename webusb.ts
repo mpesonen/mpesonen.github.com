@@ -38,10 +38,13 @@ window.onload = () => {
 
     class ButtonCommand {
         messageType: MidiMessageType;
-        messageValue: number;
-        constructor(public type: MidiMessageType, public value: number) {
+        messageData1: number;
+        messageData2: number;
+        
+        constructor(public type: MidiMessageType, public messageValue1: number, public messageValue2: number) {
             this.messageType = type;
-            this.messageValue = value;
+            this.messageData1 = messageValue1;
+            this.messageData2 = messageValue2;
         }
     }
 
@@ -55,8 +58,8 @@ window.onload = () => {
         buttonCommandUsbMessageData[0] = UPDATE_MIDI_MESSAGE_CODE; // Indicate update message
         buttonCommandUsbMessageData[1] = buttonIndex;
         buttonCommandUsbMessageData[2] = getMidiMessageTypeNumber(buttonCommand.messageType);
-        buttonCommandUsbMessageData[3] = buttonCommand.messageValue;
-        buttonCommandUsbMessageData[4] = 0; // E.g. Velocity
+        buttonCommandUsbMessageData[3] = buttonCommand.messageData1; // E.g. CC value
+        buttonCommandUsbMessageData[4] = buttonCommand.messageData2; // E.g. Velocity
         port.send(buttonCommandUsbMessageData);
 
         console.log('Message sent');
@@ -123,8 +126,9 @@ window.onload = () => {
           var closestParent = item.closest('div.parent-footswitch');
             if (closestParent !== null)
             {
-              var selectedDropdownLabel = closestParent.querySelector('input.message-type-selected');
-              selectedDropdownLabel.setAttribute('placeholder', item.textContent);
+              var selectedDropdownLabel = (<HTMLInputElement>closestParent.querySelector('input.message-type-selected'));
+              selectedDropdownLabel.value = item.textContent;
+              selectedDropdownLabel.setAttribute('midiCommandType', item.getAttribute('midiCommandType'));
 
               var footswitchIndex = closestParent.getAttribute('footswitch-index');
               var controlsDiv = closestParent.querySelector('.message-controls');
@@ -146,9 +150,15 @@ window.onload = () => {
       });
 
       updateButton.addEventListener('click', function() {
-        let midiCcData1 = document.querySelector('.midi-cc-data');
-        var midiInputValue1 = (<HTMLInputElement>midiCcData1).value;
-        sendButtonCommandUpdate(0, new ButtonCommand(MidiMessageType.ControlChange, parseInt(midiInputValue1)));
+        var footSwitchMessages = document.querySelectorAll('div.parent-footswitch');
+        footSwitchMessages.forEach(footswitchDiv => {
+          var footswitchIndex: number = parseInt(footswitchDiv.getAttribute('footswitch-index'));
+          var midiMessageType: MidiMessageType = MidiMessageType[footswitchDiv.querySelector('input.message-type-selected').getAttribute('midiCommandType')];
+          var data1: number = parseInt((<HTMLInputElement>footswitchDiv.querySelector('input.data1')).value);
+          var data2: number = parseInt((<HTMLInputElement>footswitchDiv.querySelector('input.data2')).value);
+
+          sendButtonCommandUpdate(footswitchIndex, new ButtonCommand(midiMessageType, data1, data2));
+        });
       });
     
       serial.getPorts().then(ports => {

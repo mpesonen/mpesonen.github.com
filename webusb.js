@@ -27,11 +27,13 @@ window.onload = function () {
         MidiMessageType[MidiMessageType["NoteOn"] = 2] = "NoteOn";
     })(MidiMessageType || (MidiMessageType = {}));
     var ButtonCommand = /** @class */ (function () {
-        function ButtonCommand(type, value) {
+        function ButtonCommand(type, messageValue1, messageValue2) {
             this.type = type;
-            this.value = value;
+            this.messageValue1 = messageValue1;
+            this.messageValue2 = messageValue2;
             this.messageType = type;
-            this.messageValue = value;
+            this.messageData1 = messageValue1;
+            this.messageData2 = messageValue2;
         }
         return ButtonCommand;
     }());
@@ -43,8 +45,8 @@ window.onload = function () {
         buttonCommandUsbMessageData[0] = UPDATE_MIDI_MESSAGE_CODE; // Indicate update message
         buttonCommandUsbMessageData[1] = buttonIndex;
         buttonCommandUsbMessageData[2] = getMidiMessageTypeNumber(buttonCommand.messageType);
-        buttonCommandUsbMessageData[3] = buttonCommand.messageValue;
-        buttonCommandUsbMessageData[4] = 0; // E.g. Velocity
+        buttonCommandUsbMessageData[3] = buttonCommand.messageData1; // E.g. CC value
+        buttonCommandUsbMessageData[4] = buttonCommand.messageData2; // E.g. Velocity
         port.send(buttonCommandUsbMessageData);
         console.log('Message sent');
         console.log(buttonCommandUsbMessageData);
@@ -102,7 +104,8 @@ window.onload = function () {
             var closestParent = item.closest('div.parent-footswitch');
             if (closestParent !== null) {
                 var selectedDropdownLabel = closestParent.querySelector('input.message-type-selected');
-                selectedDropdownLabel.setAttribute('placeholder', item.textContent);
+                selectedDropdownLabel.value = item.textContent;
+                selectedDropdownLabel.setAttribute('midiCommandType', item.getAttribute('midiCommandType'));
                 var footswitchIndex = closestParent.getAttribute('footswitch-index');
                 var controlsDiv = closestParent.querySelector('.message-controls');
                 if (item.classList.contains('control-change')) {
@@ -118,9 +121,14 @@ window.onload = function () {
         });
     });
     updateButton.addEventListener('click', function () {
-        var midiCcData1 = document.querySelector('.midi-cc-data');
-        var midiInputValue1 = midiCcData1.value;
-        sendButtonCommandUpdate(0, new ButtonCommand(MidiMessageType.ControlChange, parseInt(midiInputValue1)));
+        var footSwitchMessages = document.querySelectorAll('div.parent-footswitch');
+        footSwitchMessages.forEach(function (footswitchDiv) {
+            var footswitchIndex = parseInt(footswitchDiv.getAttribute('footswitch-index'));
+            var midiMessageType = MidiMessageType[footswitchDiv.querySelector('input.message-type-selected').getAttribute('midiCommandType')];
+            var data1 = parseInt(footswitchDiv.querySelector('input.data1').value);
+            var data2 = parseInt(footswitchDiv.querySelector('input.data2').value);
+            sendButtonCommandUpdate(footswitchIndex, new ButtonCommand(midiMessageType, data1, data2));
+        });
     });
     serial.getPorts().then(function (ports) {
         if (ports.length == 0) {

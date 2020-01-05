@@ -12,7 +12,7 @@
           </p>
         </div>
 
-        <div class="container parent-footswitch" footswitch-index="1">
+        <div class="container parent-footswitch" footswitch-index="0">
           <div class="row alert alert-info">
             <h2>Footswitch 1</h2>
             <div class="input-group mb-3">
@@ -28,7 +28,45 @@
             </div>
             <div class="message-controls">Controls after selection</div>
           </div>
+        </div>
 
+        <div class="container parent-footswitch" footswitch-index="1">
+          <div class="row alert alert-warning">
+            <h2>Footswitch 2</h2>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message Type</button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">CC</a>
+                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">PC</a>
+                  <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
+                </div>
+              </div>
+              <input disabled type="text" class="form-control message-type-selected" placeholder="Select type" aria-label="Text input with dropdown button">
+            </div>
+            <div class="message-controls">Controls after selection</div>
+          </div>
+        </div>
+
+        <div class="container parent-footswitch" footswitch-index="2">
+          <div class="row alert alert-success">
+            <h2>Footswitch 3</h2>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message Type</button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">CC</a>
+                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">PC</a>
+                  <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
+                </div>
+              </div>
+              <input disabled type="text" class="form-control message-type-selected" placeholder="Select type" aria-label="Text input with dropdown button">
+            </div>
+            <div class="message-controls">Controls after selection</div>
+          </div>
+        </div>
+
+        <div class="container">
           <div class="row">
             <button class="btn btn-primary" type="button" id="updateButton">
               Update all
@@ -45,18 +83,19 @@
             </div>
           </div>
         </div>
-
+        
         <div class="templates">
+          <h2>Control templates</h2>
           <div id="cc-message-controls">
             <div class="input-group mb-3">
-              <label>CC controller index:&nbsp;</label>
-              <input disabled type="number" class="form-control cc-controller-index" placeholder="0" aria-label="cc-controller-index">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-1">Controller Number</span>
+              </div>
+              <input type="number" class="form-control midi-cc-data data1" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
             </div>
             <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="midi-prepend-1">Data</span>
-              </div>
-              <input type="number" class="form-control midi-cc-data" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+              <label>(Data):&nbsp;</label>
+              <input disabled type="number" class="form-control cc-controller-index data2" aria-label="cc-controller-index">
             </div>
           </div>
 
@@ -65,7 +104,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="midi-prepend-2">Program Number</span>
               </div>
-              <input type="number" class="form-control program-number" placeholder="0" aria-label="pc-program-number">
+              <input type="number" class="form-control program-number data1" aria-label="pc-program-number">
+              <input hidden type="number" class="data2" >
             </div>
           </div>
 
@@ -74,13 +114,13 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Note Number</span>
               </div>
-              <input type="number" class="form-control note-number" placeholder="60">
+              <input type="number" class="form-control note-number data1" placeholder="60">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="midi-prepend-1">Velocity</span>
               </div>
-              <input type="number" class="form-control note-velocity" placeholder="49" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+              <input type="number" class="form-control note-velocity data2" placeholder="100" aria-label="MidiValue" aria-describedby="midi-prepend-1">
             </div>
           </div>
         </div>
