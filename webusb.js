@@ -39,11 +39,12 @@ window.onload = function () {
         if (!port) {
             return;
         }
-        var buttonCommandUsbMessageData = new Uint8Array(4);
+        var buttonCommandUsbMessageData = new Uint8Array(5);
         buttonCommandUsbMessageData[0] = UPDATE_MIDI_MESSAGE_CODE; // Indicate update message
         buttonCommandUsbMessageData[1] = buttonIndex;
         buttonCommandUsbMessageData[2] = getMidiMessageTypeNumber(buttonCommand.messageType);
         buttonCommandUsbMessageData[3] = buttonCommand.messageValue;
+        buttonCommandUsbMessageData[4] = 0; // E.g. Velocity
         port.send(buttonCommandUsbMessageData);
         console.log('Message sent');
         console.log(buttonCommandUsbMessageData);
