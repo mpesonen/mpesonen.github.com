@@ -6,13 +6,13 @@ let port;
 let UPDATE_MIDI_MESSAGE_CODE = 100;
 
 window.onload = () => {
-    console.log("ONLOAD");
+    console.log("ONLOADEND");
 
     let connectButton = document.querySelector('#connect');
     let statusDisplay = document.querySelector('#status');
     let updateButton = document.querySelector('#updateButton');
-    let loggerP = document.querySelector('#logger');
-
+    let onDeviceDataDiv = document.querySelector('div.on-device-data');
+    
     let dropDownItems = document.querySelectorAll('.dropdown-item');
 
     let ccControlsTemplate = document.querySelector('#cc-message-controls');
@@ -126,6 +126,27 @@ window.onload = () => {
         }
     }
 
+    function getMidiMessageTypeFromNumber(typeNumber: number): MidiMessageType
+    {
+        switch (typeNumber)
+        {
+            case parseInt("0xB0"): {
+                return MidiMessageType.ControlChange;
+                break;
+            }
+
+            case parseInt("0xC0"): {
+                return MidiMessageType.ProgramChange;
+                break;
+            }
+
+            case parseInt("0x90"): {
+                return MidiMessageType.NoteOn;
+                break;
+            }
+        }
+    }
+
     function connect() {
         port.connect().then(() => {
           statusDisplay.textContent = '';
@@ -134,7 +155,39 @@ window.onload = () => {
           port.onReceive = data => {
             let textDecoder = new TextDecoder();
             console.log(textDecoder.decode(data));
-            loggerP.textContent = textDecoder.decode(data);
+            
+            var receivedData = textDecoder.decode(data);
+            if (receivedData[0] == '!')
+            {
+              // Update
+              console.log("update message received");
+              var receivedValues = receivedData.split(',');
+              
+              var footswitchIndex = receivedValues[1];
+              var messageType = getMidiMessageTypeFromNumber(parseInt(receivedValues[2]));
+              var messageData1 = receivedValues[3];
+              var messageData2 = receivedValues[4];
+
+              var footswitchDiv = document.querySelector('div.parent-footswitch[footswitch-index="' + footswitchIndex + '"]');
+              var footswitchDivControls = footswitchDiv.querySelector('div.message-controls');
+              switch (messageType)
+              {
+                case MidiMessageType.ControlChange:
+                  updateCcControlsTemplate(footswitchDivControls);
+                  (footswitchDiv.querySelector('a.dropdown-item.control-change') as HTMLElement).click();
+                  break;
+                case MidiMessageType.ProgramChange:
+                  updatePcControlsTemplate(footswitchDivControls);
+                  (footswitchDiv.querySelector('a.dropdown-item.program-change') as HTMLElement).click();
+                  break;
+                case MidiMessageType.NoteOn:
+                  updateNoteOnControlsTemplate(footswitchDivControls);
+                  (footswitchDiv.querySelector('a.dropdown-item.note-on') as HTMLElement).click();
+                  break;
+              }
+              (<HTMLInputElement>footswitchDiv.querySelector('input.data1')).value = messageData1;
+              (<HTMLInputElement>footswitchDiv.querySelector('input.data2')).value = messageData2;    
+            }
           }
           port.onReceiveError = error => {
             console.error(error);

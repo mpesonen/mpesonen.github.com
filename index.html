@@ -19,8 +19,8 @@
               <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message Type</button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">CC</a>
-                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">PC</a>
+                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">Control Change</a>
+                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">Program Change</a>
                   <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
                 </div>
               </div>
@@ -37,8 +37,8 @@
               <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message Type</button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">CC</a>
-                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">PC</a>
+                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">Control Change</a>
+                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">Program Change</a>
                   <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
                 </div>
               </div>
@@ -55,8 +55,8 @@
               <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message Type</button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">CC</a>
-                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">PC</a>
+                  <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">Control Change</a>
+                  <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">Program Change</a>
                   <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
                 </div>
               </div>
@@ -71,16 +71,6 @@
             <button class="btn btn-primary" type="button" id="updateButton">
               Update all
             </button>
-          </div>
-
-          <div class="row">
-            <h2>Logger</h2>
-            <div>
-              <br/>
-              <p id="logger">
-                Here
-              </p>
-            </div>
           </div>
         </div>
         
@@ -124,6 +114,9 @@
               </div>
               <input type="number" class="form-control note-velocity data2" min="0" max="127" placeholder="100" aria-label="MidiValue" aria-describedby="midi-prepend-1">
             </div>
+          </div>
+
+          <div class="on-device-data">
           </div>
         </div>
 
