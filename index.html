@@ -22,6 +22,8 @@
                   <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">Control Change</a>
                   <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">Program Change</a>
                   <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
+                  <a class="dropdown-item custom-program-change-up" href="#" midiCommandType="CustomProgramChangeUp">Program Change Up (incremental)</a>
+                  <a class="dropdown-item custom-program-change-down" href="#" midiCommandType="CustomProgramChangeDown">Program Change Down (incremental)</a>
                 </div>
               </div>
               <input disabled type="text" class="form-control message-type-selected" placeholder="Select type" aria-label="Text input with dropdown button">
@@ -40,6 +42,8 @@
                   <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">Control Change</a>
                   <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">Program Change</a>
                   <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
+                  <a class="dropdown-item custom-program-change-up" href="#" midiCommandType="CustomProgramChangeUp">Program Change Up (incremental)</a>
+                  <a class="dropdown-item custom-program-change-down" href="#" midiCommandType="CustomProgramChangeDown">Program Change Down (incremental)</a>
                 </div>
               </div>
               <input disabled type="text" class="form-control message-type-selected" placeholder="Select type" aria-label="Text input with dropdown button">
@@ -58,6 +62,8 @@
                   <a class="dropdown-item control-change" href="#" midiCommandType="ControlChange">Control Change</a>
                   <a class="dropdown-item program-change" href="#" midiCommandType="ProgramChange">Program Change</a>
                   <a class="dropdown-item note-on" href="#" midiCommandType="NoteOn">Note on</a>
+                  <a class="dropdown-item custom-program-change-up" href="#" midiCommandType="CustomProgramChangeUp">Program Change Up (incremental)</a>
+                  <a class="dropdown-item custom-program-change-down" href="#" midiCommandType="CustomProgramChangeDown">Program Change Down (incremental)</a>
                 </div>
               </div>
               <input disabled type="text" class="form-control message-type-selected" placeholder="Select type" aria-label="Text input with dropdown button">
@@ -113,6 +119,32 @@
                 <span class="input-group-text" id="midi-prepend-1">Velocity</span>
               </div>
               <input type="number" class="form-control note-velocity data2" min="0" max="127" placeholder="100" aria-label="MidiValue" aria-describedby="midi-prepend-1">
+            </div>
+          </div>
+
+          <div id="custom-pc-up-message-controls">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-2">Min Program Number</span>
+              </div>
+              <input type="number" class="form-control program-number data1" min="0" max="127" aria-label="pc-program-number">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-2">Max Program Number</span>
+              </div>
+              <input type="number" min="0" max="127" class="data2">
+            </div>
+          </div>
+
+          <div id="custom-pc-down-message-controls">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-2">Min Program Number</span>
+              </div>
+              <input type="number" class="form-control program-number data1" min="0" max="127" aria-label="pc-program-number">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="midi-prepend-2">Max Program Number</span>
+              </div>
+              <input type="number" min="0" max="127" class="data2">
             </div>
           </div>
 

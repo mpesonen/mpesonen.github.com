@@ -11,35 +11,30 @@ window.onload = function () {
     var ccControlsTemplate = document.querySelector('#cc-message-controls');
     var pcControlsTemplate = document.querySelector('#pc-message-controls');
     var noteOnControlsTemplate = document.querySelector('#note-on-message-controls');
+    var customPcUpControlsTemplate = document.querySelector('#custom-pc-up-message-controls');
+    var customPcDownControlsTemplate = document.querySelector('#custom-pc-down-message-controls');
     function updateCcControlsTemplate(updatedDiv) {
         updatedDiv.innerHTML = ccControlsTemplate.innerHTML;
-        updatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
-            numberInput.addEventListener('change', function (event) {
-                if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min'))) {
-                    numberInput.value = numberInput.getAttribute('min');
-                }
-                else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max'))) {
-                    numberInput.value = numberInput.getAttribute('max');
-                }
-            });
-        });
+        validateMinAndMax(updatedDiv);
     }
     function updatePcControlsTemplate(updatedDiv) {
         updatedDiv.innerHTML = pcControlsTemplate.innerHTML;
-        updatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
-            numberInput.addEventListener('change', function (event) {
-                if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min'))) {
-                    numberInput.value = numberInput.getAttribute('min');
-                }
-                else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max'))) {
-                    numberInput.value = numberInput.getAttribute('max');
-                }
-            });
-        });
+        validateMinAndMax(updatedDiv);
     }
     function updateNoteOnControlsTemplate(updatedDiv) {
         updatedDiv.innerHTML = noteOnControlsTemplate.innerHTML;
-        updatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
+        validateMinAndMax(updatedDiv);
+    }
+    function updateCustomPcUpControlsTemplate(updatedDiv) {
+        updatedDiv.innerHTML = customPcUpControlsTemplate.innerHTML;
+        validateMinAndMax(updatedDiv);
+    }
+    function updateCustomPcDownControlsTemplate(updatedDiv) {
+        updatedDiv.innerHTML = customPcDownControlsTemplate.innerHTML;
+        validateMinAndMax(updatedDiv);
+    }
+    function validateMinAndMax(validatedDiv) {
+        validatedDiv.querySelectorAll('input[type="number"]').forEach(function (numberInput) {
             numberInput.addEventListener('change', function (event) {
                 if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min'))) {
                     numberInput.value = numberInput.getAttribute('min');
@@ -55,6 +50,8 @@ window.onload = function () {
         MidiMessageType[MidiMessageType["ControlChange"] = 0] = "ControlChange";
         MidiMessageType[MidiMessageType["ProgramChange"] = 1] = "ProgramChange";
         MidiMessageType[MidiMessageType["NoteOn"] = 2] = "NoteOn";
+        MidiMessageType[MidiMessageType["CustomProgramChangeUp"] = 3] = "CustomProgramChangeUp";
+        MidiMessageType[MidiMessageType["CustomProgramChangeDown"] = 4] = "CustomProgramChangeDown";
     })(MidiMessageType || (MidiMessageType = {}));
     var ButtonCommand = /** @class */ (function () {
         function ButtonCommand(type, messageValue1, messageValue2) {
@@ -95,6 +92,14 @@ window.onload = function () {
                 return parseInt("0x90");
                 break;
             }
+            case MidiMessageType.CustomProgramChangeUp: {
+                return parseInt("0xF4");
+                break;
+            }
+            case MidiMessageType.CustomProgramChangeDown: {
+                return parseInt("0xF5");
+                break;
+            }
         }
     }
     function getMidiMessageTypeFromNumber(typeNumber) {
@@ -109,6 +114,14 @@ window.onload = function () {
             }
             case parseInt("0x90"): {
                 return MidiMessageType.NoteOn;
+                break;
+            }
+            case parseInt("0xF4"): {
+                return MidiMessageType.CustomProgramChangeUp;
+                break;
+            }
+            case parseInt("0xF5"): {
+                return MidiMessageType.CustomProgramChangeDown;
                 break;
             }
         }
@@ -143,6 +156,14 @@ window.onload = function () {
                         case MidiMessageType.NoteOn:
                             updateNoteOnControlsTemplate(footswitchDivControls);
                             footswitchDiv.querySelector('a.dropdown-item.note-on').click();
+                            break;
+                        case MidiMessageType.CustomProgramChangeUp:
+                            updateCustomPcUpControlsTemplate(footswitchDivControls);
+                            footswitchDiv.querySelector('a.dropdown-item.custom-program-change-up').click();
+                            break;
+                        case MidiMessageType.CustomProgramChangeDown:
+                            updateCustomPcDownControlsTemplate(footswitchDivControls);
+                            footswitchDiv.querySelector('a.dropdown-item.custom-program-change-down').click();
                             break;
                     }
                     footswitchDiv.querySelector('input.data1').value = messageData1;
@@ -189,6 +210,12 @@ window.onload = function () {
                 }
                 else if (item.classList.contains('note-on')) {
                     updateNoteOnControlsTemplate(controlsDiv);
+                }
+                else if (item.classList.contains('custom-progam-change-up')) {
+                    updateCustomPcUpControlsTemplate(controlsDiv);
+                }
+                else if (item.classList.contains('custom-progam-change-down')) {
+                    updateCustomPcDownControlsTemplate(controlsDiv);
                 }
             }
         });

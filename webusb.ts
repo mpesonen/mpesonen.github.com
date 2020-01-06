@@ -18,48 +18,42 @@ window.onload = () => {
     let ccControlsTemplate = document.querySelector('#cc-message-controls');
     let pcControlsTemplate = document.querySelector('#pc-message-controls');
     let noteOnControlsTemplate = document.querySelector('#note-on-message-controls');
+    let customPcUpControlsTemplate = document.querySelector('#custom-pc-up-message-controls');
+    let customPcDownControlsTemplate = document.querySelector('#custom-pc-down-message-controls');
 
     function updateCcControlsTemplate(updatedDiv: Element)
     {
       updatedDiv.innerHTML = ccControlsTemplate.innerHTML;
-      
-      updatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
-        numberInput.addEventListener('change', event => {
-          if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min')))
-          {
-            numberInput.value = numberInput.getAttribute('min');
-          }
-          else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max')))
-          {
-            numberInput.value = numberInput.getAttribute('max');
-          }
-        })
-      });
+      validateMinAndMax(updatedDiv);
     }
 
     function updatePcControlsTemplate(updatedDiv: Element)
     {
       updatedDiv.innerHTML = pcControlsTemplate.innerHTML;
-
-      updatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
-        numberInput.addEventListener('change', event => {
-          if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min')))
-          {
-            numberInput.value = numberInput.getAttribute('min');
-          }
-          else if (parseInt(numberInput.value) > parseInt(numberInput.getAttribute('max')))
-          {
-            numberInput.value = numberInput.getAttribute('max');
-          }
-        })
-      });
+      validateMinAndMax(updatedDiv);
     }
 
     function updateNoteOnControlsTemplate(updatedDiv: Element)
     {
       updatedDiv.innerHTML = noteOnControlsTemplate.innerHTML;
+      validateMinAndMax(updatedDiv);
+    }
 
-      updatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
+    function updateCustomPcUpControlsTemplate(updatedDiv: Element)
+    {
+      updatedDiv.innerHTML = customPcUpControlsTemplate.innerHTML;
+      validateMinAndMax(updatedDiv);
+    }
+
+    function updateCustomPcDownControlsTemplate(updatedDiv: Element)
+    {
+      updatedDiv.innerHTML = customPcDownControlsTemplate.innerHTML;
+      validateMinAndMax(updatedDiv);
+    }
+
+    function validateMinAndMax(validatedDiv: Element)
+    {
+      validatedDiv.querySelectorAll('input[type="number"]').forEach((numberInput: HTMLInputElement) => {
         numberInput.addEventListener('change', event => {
           if (parseInt(numberInput.value) < parseInt(numberInput.getAttribute('min')))
           {
@@ -73,7 +67,13 @@ window.onload = () => {
       });
     }
 
-    enum MidiMessageType { ControlChange, ProgramChange, NoteOn, }
+    enum MidiMessageType { 
+      ControlChange, 
+      ProgramChange, 
+      NoteOn, 
+      CustomProgramChangeUp, 
+      CustomProgramChangeDown, 
+    }
 
     class ButtonCommand {
         messageType: MidiMessageType;
@@ -110,18 +110,28 @@ window.onload = () => {
         switch (type)
         {
             case MidiMessageType.ControlChange: {
-                return parseInt("0xB0");
-                break;
+              return parseInt("0xB0");
+              break;
             }
 
             case MidiMessageType.ProgramChange: {
-                return parseInt("0xC0");
-                break;
+              return parseInt("0xC0");
+              break;
             }
 
             case MidiMessageType.NoteOn: {
-                return parseInt("0x90");
-                break;
+              return parseInt("0x90");
+              break;
+            }
+
+            case MidiMessageType.CustomProgramChangeUp: {
+              return parseInt("0xF4");
+              break;
+            }
+
+            case MidiMessageType.CustomProgramChangeDown: {
+              return parseInt("0xF5");
+              break;
             }
         }
     }
@@ -144,6 +154,17 @@ window.onload = () => {
                 return MidiMessageType.NoteOn;
                 break;
             }
+
+            case parseInt("0xF4"): {
+              return MidiMessageType.CustomProgramChangeUp;
+              break;
+            }
+
+            case parseInt("0xF5"): {
+              return MidiMessageType.CustomProgramChangeDown;
+              break;
+            }
+
         }
     }
 
@@ -183,6 +204,14 @@ window.onload = () => {
                 case MidiMessageType.NoteOn:
                   updateNoteOnControlsTemplate(footswitchDivControls);
                   (footswitchDiv.querySelector('a.dropdown-item.note-on') as HTMLElement).click();
+                  break;
+                case MidiMessageType.CustomProgramChangeUp:
+                  updateCustomPcUpControlsTemplate(footswitchDivControls);
+                  (footswitchDiv.querySelector('a.dropdown-item.custom-program-change-up') as HTMLElement).click();
+                  break;
+                case MidiMessageType.CustomProgramChangeDown:
+                  updateCustomPcDownControlsTemplate(footswitchDivControls);
+                  (footswitchDiv.querySelector('a.dropdown-item.custom-program-change-down') as HTMLElement).click();
                   break;
               }
               (<HTMLInputElement>footswitchDiv.querySelector('input.data1')).value = messageData1;
@@ -236,6 +265,14 @@ window.onload = () => {
               else if (item.classList.contains('note-on'))
               {
                 updateNoteOnControlsTemplate(controlsDiv);
+              }
+              else if (item.classList.contains('custom-progam-change-up'))
+              {
+                updateCustomPcUpControlsTemplate(controlsDiv);
+              }
+              else if (item.classList.contains('custom-progam-change-down'))
+              {
+                updateCustomPcDownControlsTemplate(controlsDiv);
               }
             }
         })
