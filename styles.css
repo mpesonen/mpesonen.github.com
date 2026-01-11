@@ -1,0 +1,224 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #0a0a0a;
+    background-image: url('bg_abstract.svg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    color: #e5e5e5;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+header {
+    padding: 80px 0 60px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #ccc;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.social-link.linkedin:hover {
+    background: rgba(10, 102, 194, 0.3);
+    border-color: rgba(10, 102, 194, 0.5);
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-bottom: 80px;
+}
+
+@media (max-width: 900px) {
+    .projects {
+        grid-template-columns: 1fr;
+    }
+}
+
+.project-card {
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.75) 0%, rgba(26, 26, 26, 0.75) 100%);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.project-card:hover {
+    border-color: #3b3b3b;
+    transform: translateY(-2px);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.project-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.project-links {
+    display: flex;
+    gap: 12px;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #252525;
+    color: #e5e5e5;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.project-link:hover {
+    background: #333;
+}
+
+.project-link.primary {
+    background: #2563eb;
+    color: #fff;
+}
+
+.project-link.primary:hover {
+    background: #1d4ed8;
+}
+
+.project-description {
+    color: #b0b0b0;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-tag {
+    padding: 4px 12px;
+    background: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.features {
+    margin: 16px 0;
+    padding-left: 20px;
+    color: #999;
+    font-size: 0.95rem;
+}
+
+.features li {
+    margin-bottom: 6px;
+}
+
+@media (max-width: 640px) {
+    header {
+        padding: 50px 0 40px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .header-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .divider {
+        display: none;
+    }
+
+    .project-card {
+        padding: 24px;
+    }
+
+    .project-header {
+        flex-direction: column;
+    }
+
+    .project-links {
+        width: 100%;
+    }
+
+    .project-link {
+        flex: 1;
+        justify-content: center;
+    }
+}
